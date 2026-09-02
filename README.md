@@ -8,7 +8,6 @@ served from this folder.
 ```
 frost/
 ├── index.html            # the page (all content lives here)
-├── 404.html
 ├── favicon.svg
 ├── robots.txt
 └── assets/
