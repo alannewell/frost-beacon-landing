@@ -301,7 +301,7 @@ table { border-collapse: collapse; width: 100%; }
 .card__text { font-size: 11px; color: var(--muted); line-height: 1.55; }
 
 /* ---- Section 04 · Executive brief ---- */
-.brief__intro { display: flex; align-items: center; gap: 1rem; margin-bottom: 5rem; }
+.brief__intro { display: flex; align-items: center; gap: 1rem; margin-top: 2rem; margin-bottom: 5rem; }
 .brief__intro p { font-size: 13px; color: var(--muted); line-height: 1.65; }
 .tag {
   flex-shrink: 0; font-family: var(--f-mono); font-size: 9px; letter-spacing: 0.1em;
