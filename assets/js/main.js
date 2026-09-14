@@ -25,6 +25,14 @@
     "zap": '<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />'
   };
 
+  function hexToRgb(hex) {
+    hex = (hex || "").replace("#", "");
+    if (hex.length === 3) hex = hex.split("").map(function (c) { return c + c; }).join("");
+    if (!/^[0-9a-f]{6}$/i.test(hex)) return null;
+    var n = parseInt(hex, 16);
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  }
+
   function hydrateIcons() {
     document.querySelectorAll("[data-icon]").forEach(function (el) {
       var name = el.getAttribute("data-icon");
@@ -86,6 +94,11 @@
     var dpr = window.devicePixelRatio || 1;
     var w = 0, h = 0;
 
+    /* read the accent color from CSS so this canvas matches whichever
+       palette (--blue) the loaded stylesheet defines */
+    var accentHex = (getComputedStyle(document.documentElement).getPropertyValue("--blue") || "#0077c8").trim();
+    var accentRgb = hexToRgb(accentHex) || [0, 119, 200];
+
     function resize() {
       w = c.offsetWidth;
       h = c.offsetHeight;
@@ -122,7 +135,7 @@
           var d = Math.sqrt(dx * dx + dy * dy);
           if (d < 130) {
             ctx.beginPath();
-            ctx.strokeStyle = "rgba(0,119,200," + (0.038 * (1 - d / 130)) + ")";
+            ctx.strokeStyle = "rgba(" + accentRgb.join(",") + "," + (0.038 * (1 - d / 130)) + ")";
             ctx.lineWidth = 0.5;
             ctx.moveTo(nodes[i].x, nodes[i].y);
             ctx.lineTo(nodes[j].x, nodes[j].y);
@@ -132,7 +145,7 @@
         var n = nodes[i];
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.r + 0.3 * Math.sin(n.t), 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(0,119,200," + (0.05 + 0.02 * Math.sin(n.t)) + ")";
+        ctx.fillStyle = "rgba(" + accentRgb.join(",") + "," + (0.05 + 0.02 * Math.sin(n.t)) + ")";
         ctx.fill();
       }
       requestAnimationFrame(draw);
